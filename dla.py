@@ -133,6 +133,7 @@ class SimRunner:
         i = 1
         while not sim.done and i < self.max_iters:
             sim.step()
+            i += 1
 
 
 class SimAnimation:
