@@ -124,6 +124,13 @@ class DLA:
         return v
 
 
+def run_sim(sim, max_iters=np.inf):
+    i = 1
+    while not sim.done and i < max_iters:
+        sim.step()
+        i += 1
+
+
 class SimRunner:
     def __init__(self, sim, max_iters):
         self.sim = sim
@@ -158,6 +165,7 @@ class SimAnimation:
         return (self.im,)
 
     def on_click(self, event):
+        """Toggle play/pause with space bar"""
         if event.key != " ":
             return
         if self.paused:
@@ -180,6 +188,8 @@ class SimAnimation:
 
 
 if __name__ == "__main__":
-    sim = DLA(300)
+    sim = DLA(300, 10)
     # SimAnimation(sim, 0).run()
-    SimRunner(sim, 10000).run()
+    run_sim(sim, 20000)
+    plt.imshow(sim.grid, interpolation="none", cmap="gray")
+    plt.show()
