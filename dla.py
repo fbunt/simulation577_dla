@@ -30,6 +30,7 @@ class DLA:
         self.maxr2 = self.maxr * self.maxr
         self.nx = [1, -1, 0, 0]
         self.ny = [0, 0, 1, -1]
+        # Lookup table of neighbor direction vectors
         self.dirs = list(zip(self.nx, self.ny))
 
         self.grid[self.seed] = PARTICLE
