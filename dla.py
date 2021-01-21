@@ -39,7 +39,8 @@ class DLA:
         # for a single value. get_randint() below refreshes the cache once it
         # is exhausted.
         # This was done because randint calls were accounting for nearly 30% of
-        # the runtime
+        # the runtime. The % may be different now that other optimizations have
+        # been added.
         self.irand = 0
         self.nrand = 1024 * 10
         self.rand_vals = np.random.randint(4, size=self.nrand)
@@ -59,7 +60,7 @@ class DLA:
             r2 = ((pt[0] - self.n_2) * (pt[0] - self.n_2)) + (
                 (pt[1] - self.n_2) * (pt[1] - self.n_2)
             )
-            r = np.sqrt(r2)
+            r = int(np.sqrt(r2))
             self.ringr = min(r + self.padding, self.maxr)
             self.ringr2 = self.ringr * self.ringr
             self.done = r >= self.maxr - 2
@@ -188,8 +189,8 @@ class SimAnimation:
 
 
 if __name__ == "__main__":
-    sim = DLA(300, 10)
-    # SimAnimation(sim, 0).run()
+    sim = DLA(300)
+    # SimAnimation(sim, 1).run()
     run_sim(sim, 20000)
     plt.imshow(sim.grid, interpolation="none", cmap="gray")
     plt.show()
