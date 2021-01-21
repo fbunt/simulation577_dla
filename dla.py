@@ -43,12 +43,14 @@ class DLA:
         self.irand = 0
         self.nrand = 1024 * 10
         self.rand_vals = np.random.randint(4, size=self.nrand)
+        # Lookup table of walker speeds. Using this in walk_particle() gives a
+        # massive speedup
+        self.speed = [1, 4]
 
         self.done = False
 
     def step(self):
         if not self.done:
-            # Walk a particle toward seed
             pt = self.walk_particle()
             self.grid[pt] = PARTICLE
             self.perimeter.discard(pt)
@@ -80,9 +82,13 @@ class DLA:
                 dx, dy = self.dirs[self.get_randint()]
                 # Increase step size of walker if it is outside of the starting
                 # ring.
-                speedup = 1 + ((r2 > self.ringr2) * 4)
-                ix += dx * speedup
-                iy += dy * speedup
+                # Note: The padding on the start ring prevents the walker from
+                # jumping into the ring and hitting an already occupied cell.
+                # When the starting ring is equal to the max ring, any wallkers
+                # that stray outside will be killed anyway.
+                speed_factor = self.speed[int(r2 > self.ringr2)]
+                ix += dx * speed_factor
+                iy += dy * speed_factor
                 pt = (ix, iy)
                 r2 = ((ix - self.n_2) * (ix - self.n_2)) + (
                     (iy - self.n_2) * (iy - self.n_2)
