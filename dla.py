@@ -36,8 +36,8 @@ class DLA:
         self.grid[self.seed] = PARTICLE
         self.occupied.add(self.seed)
         self.add_perimeter(self.seed)
-        # Cache a bunch of random values to avoid repeatedly calling randint
-        # for a single value. get_randint() below refreshes the cache once it
+        # Allocate a pool of random values to avoid repeatedly calling randint
+        # for a single value. get_randint() below refreshes the pool once it
         # is exhausted.
         # This was done because randint calls were accounting for nearly 30% of
         # the runtime. The % may be different now that other optimizations have
