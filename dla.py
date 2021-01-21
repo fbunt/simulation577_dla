@@ -80,7 +80,7 @@ class DLA:
                 dx, dy = self.dirs[self.get_randint()]
                 # Increase step size of walker if it is outside of the starting
                 # ring.
-                speedup = 1 + ((r2 > self.ringr2) * 3)
+                speedup = 1 + ((r2 > self.ringr2) * 4)
                 ix += dx * speedup
                 iy += dy * speedup
                 pt = (ix, iy)
@@ -120,7 +120,7 @@ class SimRunner:
             sim.step()
 
 
-class LeathAnimation:
+class SimAnimation:
     def __init__(self, sim, interval):
         self.sim = sim
         self.fig = plt.figure()
@@ -165,5 +165,5 @@ class LeathAnimation:
 
 if __name__ == "__main__":
     sim = DLA(300)
-    LeathAnimation(sim, 1).run()
-    # SimRunner(sim, 10000).run()
+    # SimAnimation(sim, 1).run()
+    SimRunner(sim, 10000).run()
