@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 
 
-PERIMETER = 0
+PERIMETER = 1
 PARTICLE = 3
 
 
