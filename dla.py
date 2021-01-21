@@ -65,13 +65,18 @@ class DLA:
             self.done = r >= self.maxr - 2
 
     def add_perimeter(self, pt):
+        """Calculates and stores the perimeter points for a given point"""
         nn = [(pt[0] + i, pt[1] + j) for i, j in self.dirs]
         for p in nn:
             if p not in self.occupied and p not in self.perimeter:
                 self.perimeter.add(p)
-                self.grid[p] = PERIMETER
+                # Uncomment to see perimeter points visualized
+                # self.grid[p] = PERIMETER
 
     def walk_particle(self):
+        """
+        Returns the final location of a random walker that touched the cluster
+        """
         contact = False
         while not contact:
             # start
@@ -100,13 +105,17 @@ class DLA:
         return pt
 
     def get_random_start(self):
-        # Produce a walker starting point that sits on the starting ring
+        """Produce a walker starting point that sits on the starting ring"""
         theta = np.random.rand() * 2 * np.pi
         ix = int(self.ringr * np.cos(theta)) + self.n_2
         iy = int(self.ringr * np.sin(theta)) + self.n_2
         return (ix, iy)
 
     def get_randint(self):
+        """
+        Returns random int from [0, 4). Uses a large pool of random ints that
+        is refreshed as needed.
+        """
         if self.irand >= self.nrand:
             self.irand = 0
             self.rand_vals = np.random.randint(4, size=self.nrand)
@@ -171,5 +180,5 @@ class SimAnimation:
 
 if __name__ == "__main__":
     sim = DLA(300)
-    # SimAnimation(sim, 1).run()
+    # SimAnimation(sim, 0).run()
     SimRunner(sim, 10000).run()
